@@ -1,0 +1,13 @@
+<launch>
+  <arg name="scene" default="$(find vrep_ugv_simulation)/data/rescue4.ttt" />
+  <arg name="headless" default="1" />
+  <arg name="hid" default="1" />
+
+  <param name="robot_description" textfile="$(find nifti_robot_driver)/robot_model/nifti_robot.urdf" />
+  <node name="nifti_laser_assembler" pkg="nifti_laser_assembler" type="nifti_laser_assembler" />
+  <node name="vrep_ugv_simulation" pkg="vrep_ugv_simulation" type="vrep_ugv_simulation" args="$(arg scene) $(arg headless)" />
+
+  <include file="$(find vrep_ugv_simulation)/launch/vrep_ugv_teleop_keyboard.launch" unless="$(arg hid)" />
+  <include file="$(find vrep_ugv_simulation)/launch/vrep_ugv_teleop_joy.launch" if="$(arg hid)" />
+  <include file="$(find vrep_ugv_simulation)/launch/vrep_ugv_teleop_flipperduino.launch" if="$(arg hid)" />
+</launch>

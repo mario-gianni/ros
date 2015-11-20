@@ -1,0 +1,14 @@
+<launch>
+
+  <arg name="scene" default="$(find vrep_ugv_simulation)/data/uav_test.ttt" />
+  <arg name="headless" default="1" />
+  <arg name="robot_name3" value="uav1" />
+  <arg name="simulator" value="vrep" />
+
+  <param name="robot_description_$(arg robot_name3)" command="$(find xacro)/xacro.py $(find hector_quadrotor_description)/urdf/quadrotor.urdf.xacro" />
+  
+  <node name="vrep_ugv_simulation" pkg="vrep_ugv_simulation" type="vrep_ugv_simulation" args="$(arg scene) $(arg headless)" />
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find vrep_ugv_simulation)/rviz/uav.rviz" />
+  
+</launch>

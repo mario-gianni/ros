@@ -1,0 +1,3 @@
+<launch>
+  <node name="vrep_ugv_teleop_key" pkg="vrep_ugv_simulation" type="vrep_ugv_teleop_key" />
+</launch>

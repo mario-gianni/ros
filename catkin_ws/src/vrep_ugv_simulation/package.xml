@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <name>vrep_ugv_simulation</name>
+  <version>1.0.0</version>
+  <description>The VREP UGV simulation package</description>
+
+  <maintainer email="ferri@dis.uniroma1.it">Federico Ferri</maintainer>
+  <author email="ferri@dis.uniroma1.it">Federico Ferri</author>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+</package>
