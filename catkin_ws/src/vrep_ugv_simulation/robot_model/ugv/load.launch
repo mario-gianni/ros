@@ -1,0 +1,4 @@
+<launch>
+	<param name="robot_description" textfile="$(find
+	nifti_robot_driver)/robot_model/nifti_robot.urdf" />
+</launch>
