@@ -1,0 +1,30 @@
+<launch>
+
+  <arg name="robot_name1" value="ugv1" />
+  <arg name="robot_name2" value="ugv2" />
+  <arg name="robot_name3" value="uav1" />
+  <arg name="simulator" value="vrep" />
+
+
+	<node name="traversability_$(arg robot_name2)" pkg="ms_path_planner" type="traversability" respawn="false" output="screen">
+		<rosparam file="$(find  ms_path_planner)/launch/path_planner_octomap_ugv2.yaml" /> 
+		<remap from = "/dynjoinpcl" to = "/$(arg simulator)/$(arg robot_name2)/local_map_normals"/>
+		<remap from = "/clustered_pcl/no_wall" to = "/$(arg simulator)/$(arg robot_name2)/clustered_pcl/no_wall"/>
+		<remap from = "/clustered_pcl/wall" to = "/$(arg simulator)/$(arg robot_name2)/clustered_pcl/wall"/>
+		<remap from = "/trav/traversability" to = "/$(arg simulator)/$(arg robot_name2)/trav/traversability"/>
+	</node>
+
+
+	<node name="path_planner_$(arg robot_name2)" pkg="ms_path_planner" type="pathPlanner" respawn="false" output="screen">
+		<param name = "robot_frame" value = "/$(arg robot_name2)/base_link"/>
+		<param name = "goal_topic_name" value = "/$(arg simulator)/$(arg robot_name2)/goal_topic"/>
+		<param name = "int_server_name" value = "/$(arg simulator)/$(arg robot_name2)/marker_controller"/>
+		<param name = "int_marker_name" value = "$(arg robot_name2)"/>
+		<remap from = "/clustered_pcl/wall" to = "/$(arg simulator)/$(arg robot_name2)/clustered_pcl/wall"/>
+		<remap from = "/trav/traversability" to = "/$(arg simulator)/$(arg robot_name2)/trav/traversability"/>
+		<!-- <remap from = "/goal_topic" to = "/$(arg simulator)/$(arg robot_name1)/goal_topic"/>-->
+		<remap from = "/robot_path" to = "/$(arg simulator)/$(arg robot_name2)/robot_path"/>
+	</node> 
+
+  
+</launch>

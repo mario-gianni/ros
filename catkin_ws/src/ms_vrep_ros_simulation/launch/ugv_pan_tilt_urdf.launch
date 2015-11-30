@@ -1,0 +1,8 @@
+<launch>
+	<param name="robot_description" textfile="$(find ms_vrep_ros_simulation)/robot_model/ugv/nifti_robot_pan_tilt.urdf" />
+	<param name="use_gui" value="true"/>
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" ></node>
+  	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+	<node name="rviz" pkg="rviz" type="rviz" />
+</launch>
+

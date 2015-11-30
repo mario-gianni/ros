@@ -1,0 +1,24 @@
+<launch>
+
+  <arg name="robot_name1" value="ugv1" />
+  <arg name="robot_name2" value="ugv2" />
+  <arg name="robot_name3" value="uav1" />
+  <arg name="simulator" value="vrep" />
+
+  
+  <node name="global_mapping" pkg="ms_octomap_server" type="octomap_server_node" respawn="false" output="screen">
+	 <param name = "base_frame_id" value = "/odom"/>
+	 <param name = "resolution" value = "0.075"/>
+	 <param name = "sensor_model/hit" value = "0.75"/>
+	 <param name = "sensor_model/miss" value = "0.45" />
+	 <param name = "sensor_model/min" value = "0.12" />
+	 <param name = "sensor_model/max" value = "0.98" />
+
+	 <remap from = "cloud_in1" to = "/$(arg simulator)/$(arg robot_name1)/scan_point_cloud_color"/>
+	 <remap from = "cloud_in2" to = "/$(arg simulator)/$(arg robot_name2)/scan_point_cloud_color"/>
+         <remap from = "cloud_in3" to = "/$(arg simulator)/$(arg robot_name3)/scan"/>
+	 <remap from = "octomap_point_cloud_centers" to = "/global_map"/>
+  </node>
+
+  
+</launch>

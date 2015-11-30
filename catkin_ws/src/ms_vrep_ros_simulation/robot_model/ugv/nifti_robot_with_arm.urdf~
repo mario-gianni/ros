@@ -1,0 +1,405 @@
+<?xml version="1.0"?>
+<robot name="NIFTi">
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 -0.0705" rpy="1.5707963267 0 1.5707963267" />
+            <geometry>
+                <mesh scale="0.115 0.115 0.115"
+                    filename="package://ms_vrep_ros_simulation/robot_model/ugv/body.dae"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <link name="left_track">
+        <visual>
+            <origin xyz="0 0 -0.0705" rpy="1.5707963267 0 1.5707963267" />
+            <geometry>
+                <mesh scale="-0.115 0.115 0.115"
+                    filename="package://ms_vrep_ros_simulation/robot_model/ugv/bogie.dae"/>
+            </geometry>
+        </visual>
+    </link>
+    <joint name="left_track_j" type="revolute">
+        <parent link="base_link"/>
+        <child link="left_track"/>
+        <origin xyz="0 0.1985 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-0.7" upper="0.7" effort="0" velocity="0" />
+    </joint>
+
+    <link name="right_track">
+        <visual>
+            <origin xyz="0 0 -0.0705" rpy="1.5707963267 0 1.5707963267" />
+            <geometry>
+                <mesh scale="0.115 0.115 0.115"
+                    filename="package://ms_vrep_ros_simulation/robot_model/ugv/bogie.dae"/>
+            </geometry>
+        </visual>    
+    </link>
+    <joint name="right_track_j" type="revolute">
+        <parent link="base_link"/>
+        <child link="right_track"/>
+        <origin xyz="0 -0.1985 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-0.7" upper="0.7" effort="0" velocity="0" />
+    </joint>
+
+    <link name="front_left_flipper">
+        <visual>
+            <origin xyz="0 0 0" rpy="3.3 0 1.5707963267" />
+            <geometry>
+                <mesh scale="0.115 0.115 0.115"
+                    filename="package://ms_vrep_ros_simulation/robot_model/ugv/flipper.dae"/>
+            </geometry>
+        </visual>
+    </link>
+    <joint name="front_left_flipper_j" type="continuous">
+        <parent link="left_track"/>
+        <child link="front_left_flipper"/>
+        <origin xyz="0.25 0.0735 0.0195" rpy="0 0.1937 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="front_right_flipper">
+        <visual>
+            <origin xyz="0 0 0" rpy="3.3 0 1.5707963267" />
+            <geometry>
+                <mesh scale="-0.115 0.115 0.115"
+                    filename="package://ms_vrep_ros_simulation/robot_model/ugv/flipper.dae"/>
+            </geometry>
+        </visual>  
+    </link>
+    <joint name="front_right_flipper_j" type="continuous">
+        <parent link="right_track"/>
+        <child link="front_right_flipper"/>
+        <origin xyz="0.25 -0.0735 0.0195" rpy="0 0.1937 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="rear_left_flipper">
+        <visual>
+            <origin xyz="0 0 0" rpy="-2.95 0 1.5707963267" />
+            <geometry>
+                <mesh scale="0.115 0.115 0.115"
+                    filename="package://ms_vrep_ros_simulation/robot_model/ugv/flipper.dae"/>
+            </geometry>
+        </visual>
+    </link>
+    <joint name="rear_left_flipper_j" type="continuous">
+        <parent link="left_track"/>
+        <child link="rear_left_flipper"/>
+        <origin xyz="-0.25 0.0735 0.0195" rpy="0 2.9479 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="rear_right_flipper">
+        <visual>
+            <origin xyz="0 0 0" rpy="-2.95 0 1.5707963267" />
+            <geometry>
+                <mesh scale="-0.115 0.115 0.115"
+                    filename="package://ms_vrep_ros_simulation/robot_model/ugv/flipper.dae"/>
+            </geometry>
+        </visual>
+    </link>
+    <joint name="rear_right_flipper_j" type="continuous">
+        <parent link="right_track"/>
+        <child link="rear_right_flipper"/>
+        <origin xyz="-0.25 -0.0735 0.0195" rpy="0 2.9479 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="laser">
+        <visual>
+            <origin xyz="0 0 0" rpy="1.5707963267 0 -1.5707963267" />
+            <geometry>
+                <mesh scale="0.001 0.001 0.001"
+                    filename="package://ms_vrep_ros_simulation/robot_model/ugv/laser.dae"/>
+            </geometry>
+            <material name="laser_color">
+                <color rgba="1 0.9 0.7 1"/>
+            </material>
+        </visual>  
+    </link>
+    <joint name="laser_j" type="revolute">
+        <parent link="base_link"/>
+        <child link="laser"/>
+        <origin xyz="0.2502 0.0 0.1427" rpy="3.1415927 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-2.3561945" upper="2.3561945" effort="0" velocity="0" />
+    </joint>
+
+    <link name="imu"/>
+    <joint name="imu_j" type="fixed">
+        <parent link="base_link"/>
+        <child link="imu"/>
+        <origin xyz="0 0 0.1694" rpy="0 0 -1.5707963267"/>
+    </joint>
+<!--
+    <link name="omnicam">
+        <visual>
+            <origin xyz="-0.070 0.068 -0.3412" rpy="1.5707963267 0 0" />
+            <geometry>
+                <mesh scale="0.115 0.115 0.115"
+                    filename="package://ms_vrep_ros_simulation/robot_model/ugv/omnicam.stl"/>
+            </geometry>
+            <material name="omnicam_color">
+                <color rgba="0 0 0 1"/>
+            </material>
+        </visual>  
+    </link>
+  <joint name="omnicam_j" type="fixed">
+    <parent link="rear_right_box"/>
+    <child link="omnicam"/>
+    <origin rpy="0 0 -0.6283185307179586" xyz="0.36 0.07 0.135"/>
+  </joint>
+-->
+  <link name="rear_right_box"/>
+  <joint name="rear_right_box_j" type="fixed">
+    <parent link="base_link"/>
+    <child link="rear_right_box"/>
+    <origin rpy="0 0 0" xyz="-0.379 -0.1265 0.185"/>
+  </joint>
+
+<link name="jaco_api_origin">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0 0 0"/>
+        <!--making it slightly bigger in x and z direction-->
+      </geometry>
+      <!--<material name="Black" /> -->
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0 0 0"/>
+        <!--making it slightly bigger in x and z direction-->
+      </geometry>
+    </collision>
+  </link>
+  <link name="jaco_link_base">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_base.dae"/>
+      </geometry>
+      <material name="carbon_fiber">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_base.dae"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="jaco_joint_base" type="fixed">
+    <parent link="jaco_api_origin"/>
+    <child link="jaco_link_base"/>
+    <axis xyz="0 0 0"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+  <link name="jaco_link_1">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_1.dae"/>
+      </geometry>
+      <material name="carbon_fiber">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_1.dae"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="jaco_joint_1" type="continuous">
+    <parent link="jaco_link_base"/>
+    <child link="jaco_link_1"/>
+    <axis xyz="0 0 -1"/>
+    <origin rpy="3.14159265359 0 3.14159265359" xyz="0 0 0.1535"/>
+    <limit effort="30" velocity="0.83"/>
+  </joint>
+  <link name="jaco_link_2">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_2.dae"/>
+      </geometry>
+      <material name="carbon_fiber">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_2.dae"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="jaco_joint_2" type="revolute">
+    <parent link="jaco_link_1"/>
+    <child link="jaco_link_2"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="-1.57079632679 3.14159265359 0" xyz="0 0 -0.1185"/>
+    <limit effort="30" lower="-3.89208423195" upper="0.75049157835" velocity="0.83"/>
+  </joint>
+  <link name="jaco_link_3">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_3.dae"/>
+      </geometry>
+      <material name="carbon_fiber">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_3.dae"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="jaco_joint_3" type="revolute">
+    <parent link="jaco_link_2"/>
+    <child link="jaco_link_3"/>
+    <axis xyz="0 0 -1"/>
+    <origin rpy="3.14159265359 0 1.57079632679" xyz="0.41 0 0"/>
+    <limit effort="30" lower="-4.38077642251" upper="1.23918376892" velocity="0.83"/>
+  </joint>
+  <link name="jaco_link_4">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_4.dae"/>
+      </geometry>
+      <material name="carbon_fiber">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_4.dae"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="jaco_joint_4" type="continuous">
+    <parent link="jaco_link_3"/>
+    <child link="jaco_link_4"/>
+    <axis xyz="0 0 -1"/>
+    <origin rpy="3.14159265359 1.57079632679 0" xyz="0.207 0 -0.01125"/>
+    <limit effort="30" velocity="0.83"/>
+  </joint>
+  <link name="jaco_link_5">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_5.dae"/>
+      </geometry>
+      <material name="carbon_fiber">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_5.dae"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="jaco_joint_5" type="continuous">
+    <parent link="jaco_link_4"/>
+    <child link="jaco_link_5"/>
+    <axis xyz="0 0 -1"/>
+    <origin rpy="0 -0.959931088597 0" xyz="0.0343 0 -0.06588"/>
+    <limit effort="30" velocity="0.83"/>
+  </joint>
+  <link name="jaco_link_hand">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_hand.dae"/>
+      </geometry>
+      <material name="carbon_fiber">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_hand.dae"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="jaco_joint_6" type="continuous">
+    <parent link="jaco_link_5"/>
+    <child link="jaco_link_hand"/>
+    <axis xyz="0 0 -1"/>
+    <origin rpy="-0.959931088597 0 1.57079632679" xyz="0.0343 0 -0.06588"/>
+    <limit effort="30" velocity="0.83"/>
+  </joint>
+  <link name="jaco_link_finger_1">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_finger_1.dae"/>
+      </geometry>
+      <material name="carbon_fiber">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_finger_1.dae"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="jaco_joint_finger_1" type="revolute">
+    <parent link="jaco_link_hand"/>
+    <child link="jaco_link_finger_1"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="-1.7983 1.117 3.1416" xyz="-0.03978 0 -0.10071"/>
+    <limit effort="30" lower="0" upper="0.698131700798" velocity="5"/>
+  </joint>
+  <link name="jaco_link_finger_2">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_finger_2.dae"/>
+      </geometry>
+      <material name="carbon_fiber">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_finger_2.dae"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="jaco_joint_finger_2" type="revolute">
+    <parent link="jaco_link_hand"/>
+    <child link="jaco_link_finger_2"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="-1.6222 1.117 -0.23615" xyz="0.03569 -0.0216 -0.10071"/>
+    <limit effort="30" lower="0" upper="0.698131700798" velocity="5"/>
+  </joint>
+  <link name="jaco_link_finger_3">
+    <visual>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_finger_3.dae"/>
+      </geometry>
+      <material name="carbon_fiber">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://jaco_model/meshes/jaco_link_finger_3.dae"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="jaco_joint_finger_3" type="revolute">
+    <parent link="jaco_link_hand"/>
+    <child link="jaco_link_finger_3"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="-1.5161 1.1459 0.23978" xyz="0.03569 0.0216 -0.10071"/>
+    <limit effort="30" lower="0" upper="0.698131700798" velocity="5"/>
+  </joint>
+  <joint name="jaco_api_origin_j" type="fixed">
+    <parent link="base_link"/>
+    <child link="jaco_api_origin"/>
+    <origin xyz="0.06 0.0 0.21"/>
+  </joint>
+
+</robot>

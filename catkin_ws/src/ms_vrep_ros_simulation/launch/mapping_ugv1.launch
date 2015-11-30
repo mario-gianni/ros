@@ -1,0 +1,28 @@
+<launch>
+
+  <arg name="robot_name1" value="ugv1" />
+  <arg name="robot_name2" value="ugv2" />
+  <arg name="robot_name3" value="uav1" />
+  <arg name="simulator" value="vrep" />
+
+  <node name="mapping_$(arg robot_name1)" pkg="octomap_server" type="octomap_server_node" respawn="false" output="screen">
+	 <param name = "base_frame_id" value = "/$(arg robot_name1)/base_link"/>
+	 <param name = "resolution" value = "0.075"/>
+	 <param name = "sensor_model/hit" value = "0.75"/>
+	 <param name = "sensor_model/miss" value = "0.45" />
+	 <param name = "sensor_model/min" value = "0.12" />
+	 <param name = "sensor_model/max" value = "0.98" />
+
+	 <remap from = "cloud_in" to = "/$(arg simulator)/$(arg robot_name1)/scan_point_cloud_color"/>
+	 <remap from = "octomap_point_cloud_centers" to = "/$(arg simulator)/$(arg robot_name1)/local_map"/>
+  </node>
+
+	<node name="compute_normals_$(arg robot_name1)" pkg="ms_path_planner" type="compute_normals" respawn="false" output="screen">
+		<rosparam file="$(find  ms_path_planner)/launch/path_planner_octomap_ugv1.yaml" /> 
+	 <remap from = "cloud_in" to = "/$(arg simulator)/$(arg robot_name1)/local_map"/>
+	 <remap from = "cloud_out" to = "/$(arg simulator)/$(arg robot_name1)/local_map_normals"/>
+         <remap from = "/normals_marker" to = "/$(arg simulator)/$(arg robot_name1)/normal_markers"/>
+	</node> 
+
+  
+</launch>

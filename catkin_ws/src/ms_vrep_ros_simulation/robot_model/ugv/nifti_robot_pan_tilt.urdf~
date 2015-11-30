@@ -1,0 +1,270 @@
+<?xml version="1.0"?>
+<robot name="NIFTi">
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 -0.0705" rpy="1.5707963267 0 1.5707963267" />
+            <geometry>
+                <mesh scale="0.115 0.115 0.115"
+                    filename="package://nifti_robot_driver/robot_model/body.dae"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <link name="left_track">
+        <visual>
+            <origin xyz="0 0 -0.0705" rpy="1.5707963267 0 1.5707963267" />
+            <geometry>
+                <mesh scale="-0.115 0.115 0.115"
+                    filename="package://nifti_robot_driver/robot_model/bogie.dae"/>
+            </geometry>
+        </visual>
+    </link>
+    <joint name="left_track_j" type="revolute">
+        <parent link="base_link"/>
+        <child link="left_track"/>
+        <origin xyz="0 0.1985 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-0.7" upper="0.7" effort="0" velocity="0" />
+    </joint>
+
+    <link name="right_track">
+        <visual>
+            <origin xyz="0 0 -0.0705" rpy="1.5707963267 0 1.5707963267" />
+            <geometry>
+                <mesh scale="0.115 0.115 0.115"
+                    filename="package://nifti_robot_driver/robot_model/bogie.dae"/>
+            </geometry>
+        </visual>    
+    </link>
+    <joint name="right_track_j" type="revolute">
+        <parent link="base_link"/>
+        <child link="right_track"/>
+        <origin xyz="0 -0.1985 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-0.7" upper="0.7" effort="0" velocity="0" />
+    </joint>
+
+    <link name="front_left_flipper">
+        <visual>
+            <origin xyz="0 0 0" rpy="3.3 0 1.5707963267" />
+            <geometry>
+                <mesh scale="0.115 0.115 0.115"
+                    filename="package://nifti_robot_driver/robot_model/flipper.dae"/>
+            </geometry>
+        </visual>
+    </link>
+    <joint name="front_left_flipper_j" type="continuous">
+        <parent link="left_track"/>
+        <child link="front_left_flipper"/>
+        <origin xyz="0.25 0.0735 0.0195" rpy="0 0.1937 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="front_right_flipper">
+        <visual>
+            <origin xyz="0 0 0" rpy="3.3 0 1.5707963267" />
+            <geometry>
+                <mesh scale="-0.115 0.115 0.115"
+                    filename="package://nifti_robot_driver/robot_model/flipper.dae"/>
+            </geometry>
+        </visual>  
+    </link>
+    <joint name="front_right_flipper_j" type="continuous">
+        <parent link="right_track"/>
+        <child link="front_right_flipper"/>
+        <origin xyz="0.25 -0.0735 0.0195" rpy="0 0.1937 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="rear_left_flipper">
+        <visual>
+            <origin xyz="0 0 0" rpy="-2.95 0 1.5707963267" />
+            <geometry>
+                <mesh scale="0.115 0.115 0.115"
+                    filename="package://nifti_robot_driver/robot_model/flipper.dae"/>
+            </geometry>
+        </visual>
+    </link>
+    <joint name="rear_left_flipper_j" type="continuous">
+        <parent link="left_track"/>
+        <child link="rear_left_flipper"/>
+        <origin xyz="-0.25 0.0735 0.0195" rpy="0 2.9479 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="rear_right_flipper">
+        <visual>
+            <origin xyz="0 0 0" rpy="-2.95 0 1.5707963267" />
+            <geometry>
+                <mesh scale="-0.115 0.115 0.115"
+                    filename="package://nifti_robot_driver/robot_model/flipper.dae"/>
+            </geometry>
+        </visual>
+    </link>
+    <joint name="rear_right_flipper_j" type="continuous">
+        <parent link="right_track"/>
+        <child link="rear_right_flipper"/>
+        <origin xyz="-0.25 -0.0735 0.0195" rpy="0 2.9479 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="laser">
+        <visual>
+            <origin xyz="0 0 0" rpy="1.5707963267 0 -1.5707963267" />
+            <geometry>
+                <mesh scale="0.001 0.001 0.001"
+                    filename="package://nifti_robot_driver/robot_model/laser.dae"/>
+            </geometry>
+            <material name="laser_color">
+                <color rgba="1 0.9 0.7 1"/>
+            </material>
+        </visual>  
+    </link>
+    <joint name="laser_j" type="revolute">
+        <parent link="base_link"/>
+        <child link="laser"/>
+        <origin xyz="0.2502 0.0 0.1427" rpy="3.1415927 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-2.3561945" upper="2.3561945" effort="0" velocity="0" />
+    </joint>
+
+    <link name="imu"/>
+    <joint name="imu_j" type="fixed">
+        <parent link="base_link"/>
+        <child link="imu"/>
+        <origin xyz="0 0 0.1694" rpy="0 0 -1.5707963267"/>
+    </joint>
+<!--
+    <link name="omnicam">
+        <visual>
+            <origin xyz="-0.070 0.068 -0.3412" rpy="1.5707963267 0 0" />
+            <geometry>
+                <mesh scale="0.115 0.115 0.115"
+                    filename="package://nifti_robot_driver/robot_model/omnicam.stl"/>
+            </geometry>
+            <material name="omnicam_color">
+                <color rgba="0 0 0 1"/>
+            </material>
+        </visual>  
+    </link>
+  <joint name="omnicam_j" type="fixed">
+    <parent link="rear_right_box"/>
+    <child link="omnicam"/>
+    <origin rpy="0 0 -0.6283185307179586" xyz="0.36 0.07 0.135"/>
+  </joint>
+-->
+  <link name="rear_right_box"/>
+  <joint name="rear_right_box_j" type="fixed">
+    <parent link="base_link"/>
+    <child link="rear_right_box"/>
+    <origin rpy="0 0 0" xyz="-0.379 -0.1265 0.185"/>
+  </joint>
+
+
+<link name="ptu_pan_link">
+    <!-- <inertial>
+        <mass value="0.65" />
+        <inertia ... ? />
+      </inertial> -->
+    <visual>
+      <material name="ptu_body_color">
+        <color rgba="0.3 0.3 0.3 1.0"/>
+      </material>
+      <geometry>
+        <box size="0.045 0.065 0.044"/>
+      </geometry>
+      <origin xyz="0 0.011 0"/>
+    </visual>
+    <visual>
+      <geometry>
+        <box size="0.046 0.044 0.044"/>
+      </geometry>
+      <origin xyz="-0.045 0.0215 0"/>
+    </visual>
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005"/>
+      </geometry>
+      <origin rpy="0 1.57 0" xyz="-0.074 0.021 0"/>
+    </visual>
+  </link>
+  <link name="ptu_tilt_link">
+    <!-- <inertial>
+        <mass value="0.65" />
+        <inertia ... ? />
+      </inertial> -->
+    <visual>
+      <material name="ptu_body_color">
+        <color rgba="0.3 0.3 0.3 1.0"/>
+      </material>
+      <geometry>
+        <box size="0.045 0.065 0.044"/>
+      </geometry>
+      <origin xyz="0 0.011 0"/>
+    </visual>
+    <visual>
+      <geometry>
+        <box size="0.046 0.044 0.044"/>
+      </geometry>
+      <origin xyz="-0.045 0.0215 0"/>
+    </visual>
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005"/>
+      </geometry>
+      <origin rpy="0 1.57 0" xyz="-0.074 0.021 0"/>
+    </visual>
+  </link>
+  <link name="ptu_base_link"/>
+  <link name="ptu_tilted_link">
+	<visual>
+        <material name="ptu_body_color">
+          <color rgba="0.3 0.3 0.3 1.0" />
+        </material>
+        <geometry>
+          <box size="0.02 0.06426 0.051" />
+        </geometry>
+        <origin xyz="0 0.0 -0.01362" />
+      </visual>
+  </link>
+
+  <link name="ptu_mount_link"/>
+  <!-- There's an offset between the origin of the pan joint and the origin of 
+         the overall device, which is between the mounting screws on its base. -->
+  <joint name="ptu_base" type="fixed">
+    <parent link="ptu_base_link"/>
+    <child link="ptu_pan_link"/>
+    <origin xyz="0 -0.011 0.022"/>
+  </joint>
+  <!-- The pan joint -->
+  <joint name="ptu_pan" type="revolute">
+    <parent link="ptu_pan_link"/>
+    <origin rpy="-1.5708 0 0" xyz="0 0 0.066"/>
+    <child link="ptu_tilt_link"/>
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <limit effort="30" lower="2.775" upper="-2.775" velocity="1.0"/>
+  </joint>
+  <!-- The tilt joint -->
+  <joint name="ptu_tilt" type="revolute">
+    <parent link="ptu_tilt_link"/>
+    <origin rpy="-1.5708 0 0" xyz="0 0 0"/>
+    <child link="ptu_tilted_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="30" lower="-0.82" upper="0.52" velocity="1.0"/>
+  </joint>
+  <!-- Fixed joint to provide a convenient attachment point for accessories. -->
+  <joint name="ptu_mount" type="fixed">
+    <parent link="ptu_tilted_link"/>
+    <child link="ptu_mount_link"/>
+    <origin rpy="3.1416 0 0" xyz="0 0 -0.03912"/>
+  </joint>
+  <!-- Create a fixed joint to connect the PTU to the rest of the robot -->
+  <joint name="base_to_ptu_base" type="fixed">
+    <parent link="base_link"/>
+    <child link="ptu_base_link"/>
+    <origin xyz="0.1 0.0 0.2"/>
+  </joint>
+  <!-- If you had a lidar or some other device mounted on the PTU, you would create another
+       fixed joint here between the ptu_mount link and the origin of the device. -->
+
+</robot>
