@@ -1,0 +1,24 @@
+<launch>
+  <arg name="robot_name1" value="ugv1" />
+  <arg name="robot_name2" value="ugv2" />
+  <arg name="simulator" value="vrep" />
+
+  <node name="trajectory_control_action_server_$(arg robot_name1)" pkg="ms_trajectory_control" type="ms_trajectory_control" respawn="false" output="screen">
+	 <param name = "odom_frame_id" value = "/odom"/>
+	 <param name = "global_frame_id" value = "/map"/>
+	 <param name = "robot_frame_id" value = "/$(arg robot_name1)/base_link"/>
+
+
+          <param name = "fl_frame_id" value = "/$(arg robot_name1)/front_left_flipper"/>
+  	  <param name = "fr_frame_id" value = "/$(arg robot_name1)/front_right_flipper"/>
+	 <param name = "rl_frame_id" value = "/$(arg robot_name1)/rear_left_flipper"/>
+	 <param name = "rr_frame_id" value = "/$(arg robot_name1)/rear_right_flipper"/>
+
+	 <param name = "imu_odom_topic" value = "/$(arg simulator)/$(arg robot_name1)/odom"/>
+         <param name = "tracks_vel_cmd_topic" value = "/$(arg simulator)/$(arg robot_name1)/tracks_vel_cmd"/>
+	 <param name="robot_path_topic" value="/$(arg simulator)/$(arg robot_name1)/robot_path" />
+  </node> 
+
+
+</launch>
+
