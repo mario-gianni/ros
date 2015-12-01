@@ -1,0 +1,5 @@
+<launch>
+	<node name="traversability" pkg="path_planner" type="traversability" respawn="false" output="screen">
+		<rosparam file="$(find path_planner)/launch/path_planner_octomap.yaml" /> 
+	</node> 
+</launch>

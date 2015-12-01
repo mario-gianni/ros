@@ -1,0 +1,57 @@
+#ifndef TRAV_ANAL_H_
+#define TRAV_ANAL_H_
+
+#include <cmath>
+#include <vector>
+#include <set>
+
+#include <ms_path_planner/TravAnalConfig.h>
+
+using namespace ms_path_planner;
+
+#include <geometry_msgs/Pose.h>
+#include <geometry_msgs/PoseArray.h>
+
+#include <pcl/kdtree/kdtree_flann.h>
+#include <pcl/segmentation/sac_segmentation.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl/filters/extract_indices.h>
+#include <pcl/segmentation/conditional_euclidean_clustering.h>
+#include <ms_path_planner/ClusterPcl.h>
+
+using namespace std;
+
+
+
+class TravAnal{
+
+public:
+	typedef pcl::PointXYZI PointOutI;
+	typedef pcl::PointCloud<PointOutI> PointCloudI;
+	typedef pcl::KdTreeFLANN<PointOutI> KdTreeInI;
+	TravAnal();
+	~TravAnal();
+	void set_input(std::vector<int>& clusters_info_, pcl::PointCloud<pcl::PointXYZRGBNormal>& Wall, pcl::PointCloud<pcl::PointXYZRGBNormal>& input_pcl);
+	void computeTrav(PointCloudI& traversabilty_pcl);
+	void get_pcl(PointCloudI& clearence_pcl, PointCloudI& density_pcl, PointCloudI& label_pcl, PointCloudI& roughnes_pcl);
+
+	inline void setConfig(TravAnalConfig& new_config) {config = new_config;}
+	inline TravAnalConfig getConfig() {return config;}
+
+private:
+	TravAnalConfig config;
+
+	double computeRough(int point_index,pcl::PointCloud<pcl::PointXYZRGBNormal>& nh);
+	inline double computeDensity(int point_index, pcl::PointCloud<pcl::PointXYZRGBNormal>& nh);
+	double computeClearance(int point_index);
+	double computeLabel(int point_index);
+
+	std::vector<int> clusters_info;
+	pcl::PointCloud<pcl::PointXYZRGBNormal> wall_pcl, noWall_pcl;
+	PointCloudI traversabilty_pcl, density_pcl, clearence_pcl, label_pcl, roughness_pcl;
+
+	pcl::KdTreeFLANN<pcl::PointXYZRGBNormal> wall_kdtree, input_kdtree;
+
+};
+#endif // TRAV_ANAL_H_
