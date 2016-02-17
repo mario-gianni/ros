@@ -1,0 +1,18 @@
+<launch>
+  <arg name="scene" default="$(find ms_vrep_ros_simulation)/scene/UAV-UGV-UGV-environment.ttt" />
+  <arg name="headless" default="1" />
+  <arg name="hid" default="1" />
+  <arg name="robot_name1" value="ugv1" />
+  <arg name="robot_name2" value="ugv2" />
+  <arg name="robot_name3" value="uav1" />
+  <arg name="simulator" value="vrep" />
+
+  <param name="robot_description_$(arg robot_name1)" textfile="$(find ms_vrep_ros_simulation)/robot_model/ugv/nifti_robot_with_arm.urdf" />
+  <param name="robot_description_$(arg robot_name2)" textfile="$(find ms_vrep_ros_simulation)/robot_model/ugv/nifti_robot_pan_tilt.urdf" />
+  <param name="robot_description_$(arg robot_name3)" textfile="$(find ms_vrep_ros_simulation)/robot_model/uav/uav3.urdf" />
+  
+  <node name="multi_robot_simulation" pkg="ms_vrep_ros_simulation" type="vrep_ros_multi_robot_simulation" args="$(arg scene) $(arg headless)" />
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ms_vrep_ros_simulation)/rviz/uav_ugv_ugv.rviz" />
+
+</launch>
