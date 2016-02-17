@@ -1,0 +1,20 @@
+<launch>
+
+	<arg name="robot_name1" value="ugv1" />
+  	<arg name="robot_name2" value="ugv2" />
+  	<arg name="robot_name3" value="uav1" />
+  	<arg name="simulator" value="vrep" />
+
+	<node pkg="joy" type="joy_node" name="robot_joy_node_$(arg robot_name3)" >
+		<param name="dev" value="/dev/input/by-id/usb-Logitech_Logitech_Cordless_RumblePad_2-joystick" />
+		<param name="deadzone" value="0.9" />
+		<param name="autorepeat_rate" value="10.0" />
+		<remap from="/joy" to="/$(arg simulator)/$(arg robot_name3)/local_joy/joy" />
+	</node>
+
+	<node pkg="joy_to_twist" type="joy_to_twist" name="joy_to_twist_$(arg robot_name3)">
+		<param name="robot_type" value="uav" />
+		<param name="joy_in" value="/$(arg simulator)/$(arg robot_name3)/local_joy/joy" />
+		<param name="cmd_out" value="/$(arg simulator)/$(arg robot_name3)/cmd_vel" />
+	</node>
+</launch>
