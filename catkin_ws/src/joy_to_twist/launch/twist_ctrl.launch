@@ -1,0 +1,14 @@
+<launch>
+	<node pkg="joy" type="joy_node" name="robot_joy_node" >
+		<param name="dev" value="/dev/input/by-id/usb-Logitech_Logitech_Cordless_RumblePad_2-joystick" />
+		<param name="deadzone" value="0.9" />
+		<param name="autorepeat_rate" value="10.0" />
+		<remap from="/joy" to="/local_joy/joy" />
+	</node>
+
+	<node pkg="joy_to_twist" type="joy_to_twist" name="joy_to_twist_robot">
+		<param name="robot_type" value="uav" />
+		<param name="joy_in" value="/local_joy/joy" />
+		<param name="cmd_out" value="/quad_cmd_twist" />
+	</node>
+</launch>
