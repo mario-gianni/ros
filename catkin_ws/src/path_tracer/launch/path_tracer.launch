@@ -1,0 +1,13 @@
+<launch>
+
+	<arg name="robot_name1" value="ugv1" />
+  	<arg name="robot_name2" value="ugv2" />
+  	<arg name="robot_name3" value="uav1" />
+  	<arg name="simulator" value="vrep" />
+
+	<node pkg="path_tracer" type="path_tracer" name="path_tracer_$(arg robot_name3)">
+		<param name="pose_in" value="/$(arg simulator)/$(arg robot_name3)/current_pose" />
+		<param name="path_out" value="/$(arg simulator)/$(arg robot_name3)/path_followed" />
+		<param name="path_frame" value="/map" />
+	</node>
+</launch>
